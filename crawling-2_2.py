@@ -1,4 +1,8 @@
 # 동적 웹크롤링 - selenium 기초 사용법
+# 구글 검색 실행시 보안창 해결을 위해 자동화 엑세스 처리 부분 추가 
+# 기존 webdriver 를 undetected_chromedriver 로 대체
+# 기존 Options 를 undetected_chromedriver 로 대체
+
 
 # selenium 의 webdriver 를 사용하기 위한 import
 from selenium import webdriver
@@ -20,15 +24,43 @@ from webdriver_manager.chrome import ChromeDriverManager
 # 페이지 로딩을 기다리는데 사용할 time 모듈 import
 import time
 
+# 자동화 엑세스 처리를 위한 추가
+import undetected_chromedriver as uc
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from fake_useragent import UserAgent   # 해당 부분 사용하기 위해서는 먼저 pip install fake_useragent 선행 되어야함.
+from selenium_stealth import stealth   # 해당 부분 사용하기 위해서는 먼저 pip install selenium_stealth 선행 되어야함.
+
+
 
 # chrome 실행후 자동으로 창이 닫히는 문제 해결을 위한 option 적용
-options = Options()
-options.add_experimental_option("detach", True)
+#options = Options()
+#options.add_experimental_option("detach", True)
+
+
+# 기존 Options 를 undetected_chromedriver 로 대체
+options = uc.ChromeOptions()
+# 팝업 차단 활성화 옵션
+#options.add_argument('disable-popup-blocking')
+
 
 # 크롬드라이버 실행
-#driver = webdriver.Chrome()
-driver = webdriver.Chrome(options=options)
-#driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+#driver = webdriver.Chrome(options=options)
+
+# 기존 webdriver 를 undetected_chromedriver 로 대체
+driver = uc.Chrome(options=options, enable_cdp_events=True, incognito=True)
+
+# selenium_stealth 설정
+stealth(driver,
+        vendor="Google Inc. ",
+        platform="Win32",
+        webgl_vendor="intel Inc. ",
+        renderer="Intel Iris OpenGl Engine",
+        fix_hairline=True
+        )
+
+options.add_argument('--remote-debugging-port=9222')
+
 
 
 # 크롬드라이버 url 주소 넣고 실행
