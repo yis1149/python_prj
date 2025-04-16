@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 import urllib
 import re
-import pandas as pd
+#from pandas import pd
 from newspaper import Article
 from selenium import webdriver
 
@@ -16,6 +16,7 @@ options = webdriver.ChromeOptions()
 options.add_argument('headless')
 driver = webdriver.Chrome(options=options)
 
+'''
 while 1:
     # google news crawling
     url = f'https://www.google.com/search?q={keyword}&sca_esv=1814fa2a4600643d&tbas=0&tbs=qdr:m&tbm=nws&ei=rE3pZeLxNeHX1e8PpdOcMA&start={page_num}&sa=N&ved=2ahUKEwji9-zrsuGEAxXha_UHHaUpBwYQ8tMDegQIBBAE&biw=2560&bih=1313&dpr=1'
@@ -59,3 +60,4 @@ while 1:
     news_df.to_excel('news_crawling.xlsx', index=False)
 
 news_df.columns = ['제목','본문','URL']
+'''
