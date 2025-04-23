@@ -5,9 +5,13 @@ from selenium.webdriver.chrome.options import Options
 import time
 import pandas as pd
 
+
+def is_multiple_of_10(num):
+    return num % 10 == 0
+
 # 크롬 드라이버 옵션 설정
 options = Options()
-options.add_argument('--headless')  # 브라우저 안 띄우기
+#options.add_argument('--headless')  # 브라우저 안 띄우기
 options.add_argument('--no-sandbox')
 options.add_argument('--disable-dev-shm-usage')
 
@@ -24,19 +28,21 @@ driver.get(url)
 time.sleep(3)
 
 # 리뷰 탭으로 이동
-try:
-    review_tab = driver.find_element(By.XPATH, "//a[@data-tab-section='productReview']")
-    review_tab.click()
-    time.sleep(3)
-except:
-    print("리뷰 탭을 찾을 수 없습니다.")
-    driver.quit()
-    exit()
+#try:
+    #review_tab = driver.find_element(By.XPATH, "//a[@data-tab-section='productReview']") # 해당 내용으로 못찾음
+review_tab = driver.find_element(By.ID, 'btfTab')
+print("1")
+review_tab.click()
+time.sleep(3)
+#except:
+#    print("리뷰 탭을 찾을 수 없습니다.")
+#    driver.quit()
+#    exit()
 
 # 스크롤 또는 다음 페이지 탐색을 통한 리뷰 수집
 reviews = []
 page = 1
-while page <= 5:  # 원하는 만큼 페이지 수 조절 가능
+while page <= 15:  # 원하는 만큼 페이지 수 조절 가능
     print(f"{page}페이지 수집 중...")
     time.sleep(2)
     review_elements = driver.find_elements(By.CLASS_NAME, 'sdp-review__article__list__headline')
@@ -50,11 +56,19 @@ while page <= 5:  # 원하는 만큼 페이지 수 조절 가능
             continue
 
     try:
-        next_button = driver.find_element(By.CLASS_NAME, 'btn-next')
-        if 'disabled' in next_button.get_attribute('class'):
-            break
-        next_button.click()
-        page += 1
+        if is_multiple_of_10(page) and page>1:
+            next_button = driver.find_element(By.CLASS_NAME, 'sdp-review__article__page__next')
+            if 'disabled' in next_button.get_attribute('class'):
+                break
+            next_button.click()     
+            page += 1       
+        else:
+            pageIdx = page%10
+            next_button = driver.find_elements(By.CLASS_NAME, 'sdp-review__article__page__num')[pageIdx]
+            if 'disabled' in next_button.get_attribute('class'):
+                break
+            next_button.click()
+            page += 1
     except:
         print("다음 페이지 버튼 없음")
         break
