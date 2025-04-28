@@ -13,7 +13,7 @@ driver = webdriver.Chrome(options=options)
 
 # 크롬드라이버 url 실행
 
-'''
+
 # 1. 콩볶는사람들 Start
 driver.get('https://www.xn--sh1bx7bj4cm6h09ezw0a.com/member/login.php')
 time.sleep(3) #페이지 로딩 대기
@@ -39,7 +39,7 @@ time.sleep(3) #페이지 로딩 대기
 
 # Webdriver 종료
 driver.quit()
-'''
+
 
 # 2. illycaffe Start
 driver.get('https://shop.illycaffe.co.kr/member/login.php')
