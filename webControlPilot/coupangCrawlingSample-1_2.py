@@ -28,14 +28,13 @@ driver.get(URL)
 try:
     # 리뷰 섹션이 로드될 때까지 기다리기
     print("1")
-    WebDriverWait(driver, 10).until(
-        print("1-1")
+    WebDriverWait(driver, 10).until(        
         EC.presence_of_element_located((By.CLASS_NAME, 'sdp-review__article__list js_reviewArticleReviewList'))
     )
     (print("2"))
     # 리뷰 섹션으로 스크롤
     review_section = driver.find_element(By.CLASS_NAME, 'sdp-review__article__list js_reviewArticleReviewList')
-    (print("2-1"))
+    (print("2_1"))
     # driver.execute_script("arguments[0].scrollIntoView(true);", review_section)
     print(review_section.text)  # 리뷰 섹션의 텍스트 출력 (디버깅용)
     time.sleep(2)

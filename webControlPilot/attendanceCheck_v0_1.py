@@ -42,6 +42,7 @@ driver.quit()
 
 
 # 2. illycaffe Start
+driver = webdriver.Chrome(options=options)
 driver.get('https://shop.illycaffe.co.kr/member/login.php')
 time.sleep(3)
 
